@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Entity schema v1",
+  "type": "object",
+  "required": [
+    "entity_id",
+    "entity_type",
+    "created_at",
+    "last_seen_at",
+    "entity_version"
+  ],
+  "properties": {
+    "entity_id": {"type": "string"},
+    "entity_type": {"type": "string", "enum": ["Issue", "Comment", "Person", "Label", "Status", "PullRequest", "Unknown"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "last_seen_at": {"type": "string", "format": "date-time"},
+    "entity_version": {"type": "string"},
+    "aliases": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "List of original (non-canonical) IDs that map to this canonical entity"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Optional additional entity metadata (counts, sources, aliases)",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,7 @@
+requests
+tqdm
+python-dotenv
+neo4j
+ollama
+streamlit
+jsonschema
