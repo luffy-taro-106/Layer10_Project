@@ -5,8 +5,6 @@ Builds a grounded memory graph from Apache Airflow GitHub issues, stores it in N
 
 **Darshan Sonawane 23B1541**  
 
-Project: Layer10 Memory Graph
-
 ## What This Project Does
 - Collects GitHub issues + comments from `apache/airflow`
 - Cleans and normalizes raw artifacts
