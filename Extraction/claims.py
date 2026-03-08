@@ -9,7 +9,7 @@ import os
 import uuid
 import re
 from typing import Any, Dict, List
-from datetime import datetime
+from datetime import datetime, timezone
 
 INPUT_FILE = "/Users/luffy_sama/Desktop/Workspace/Try/10/data/processed/airflow_clean.json"
 OUTPUT_FILE = "/Users/luffy_sama/Desktop/Workspace/Try/10/data/claims/claims_v1.json"
@@ -90,7 +90,7 @@ def make_claim(subject: str, predicate: str, obj: Any, event_time: str, source_t
     excerpt_text = (excerpt or "")[:EXCERPT_LIMIT]
     claim_id = _stable_claim_id(subject, predicate, obj, event_time, source_id)
     offsets = _find_offsets(source_text, excerpt_text)
-    extraction_ts = datetime.utcnow().isoformat() + "Z"
+    extraction_ts = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     return {
         "claim_id": claim_id,
         "subject": subject,
@@ -261,95 +261,95 @@ def main() -> None:
             else:
                 print(f"Skipped invalid or disallowed claim: {c.get('claim_id')}")
 
-    # ISSUE_ASSIGNED_TO from issue-level assignees
-    assignees = issue.get("assignees") or []
-    if assignees and not isinstance(assignees, (list, tuple)):
-        assignees = [assignees]
-    for assignee in assignees:
-        if not assignee:
-            continue
-        obj_ns = namespace_object("ISSUE_ASSIGNED_TO", assignee)
-        c = make_claim(
-            subject=issue_node,
-            predicate="ISSUE_ASSIGNED_TO",
-            obj=obj_ns,
-            event_time=event_time,
-            source_type="issue_metadata",
-            source_id=issue_id,
-            excerpt=f"Assignee: {assignee}",
-        )
-        if is_subject_allowed(c["predicate"], c["subject"]) and validate_claim(c):
-            claims.append(c)
-        else:
-            print(f"Skipped invalid or disallowed claim: {c.get('claim_id')}")
-
-    # Process comments: create ISSUE_HAS_COMMENT and COMMENT_WRITTEN_BY
-    for comment in (issue.get("comments") or []):
-        try:
-            comment_id = comment.get("comment_id") or comment.get("id")
-        except Exception:
-            comment_id = None
-        if not comment_id:
-            continue
-        comment_node = f"comment_{comment_id}"
-        comment_event_time = comment.get("created_at") or event_time
-        excerpt = (comment.get("body") or "")[:EXCERPT_LIMIT]
-
-        # ISSUE_HAS_COMMENT
-        c1 = make_claim(
-            subject=issue_node,
-            predicate="ISSUE_HAS_COMMENT",
-            obj=comment_node,
-            event_time=comment_event_time,
-            source_type="issue_comment",
-            source_id=comment_id,
-            excerpt=excerpt,
-        )
-        if is_subject_allowed(c1["predicate"], c1["subject"]) and validate_claim(c1):
-            claims.append(c1)
-        else:
-            print(f"Skipped invalid or disallowed claim: {c1.get('claim_id')}")
-
-        # COMMENT_WRITTEN_BY
-        comment_author = comment.get("author")
-        if comment_author:
-            obj_ns = namespace_object("COMMENT_WRITTEN_BY", comment_author)
-            c2 = make_claim(
-                subject=comment_node,
-                predicate="COMMENT_WRITTEN_BY",
+        # ISSUE_ASSIGNED_TO from issue-level assignees
+        assignees = issue.get("assignees") or []
+        if assignees and not isinstance(assignees, (list, tuple)):
+            assignees = [assignees]
+        for assignee in assignees:
+            if not assignee:
+                continue
+            obj_ns = namespace_object("ISSUE_ASSIGNED_TO", assignee)
+            c = make_claim(
+                subject=issue_node,
+                predicate="ISSUE_ASSIGNED_TO",
                 obj=obj_ns,
+                event_time=event_time,
+                source_type="issue_metadata",
+                source_id=issue_id,
+                excerpt=f"Assignee: {assignee}",
+            )
+            if is_subject_allowed(c["predicate"], c["subject"]) and validate_claim(c):
+                claims.append(c)
+            else:
+                print(f"Skipped invalid or disallowed claim: {c.get('claim_id')}")
+
+        # Process comments: create ISSUE_HAS_COMMENT and COMMENT_WRITTEN_BY
+        for comment in (issue.get("comments") or []):
+            try:
+                comment_id = comment.get("comment_id") or comment.get("id")
+            except Exception:
+                comment_id = None
+            if not comment_id:
+                continue
+            comment_node = f"comment_{comment_id}"
+            comment_event_time = comment.get("created_at") or event_time
+            excerpt = (comment.get("body") or "")[:EXCERPT_LIMIT]
+
+            # ISSUE_HAS_COMMENT
+            c1 = make_claim(
+                subject=issue_node,
+                predicate="ISSUE_HAS_COMMENT",
+                obj=comment_node,
                 event_time=comment_event_time,
                 source_type="issue_comment",
                 source_id=comment_id,
                 excerpt=excerpt,
             )
-            if is_subject_allowed(c2["predicate"], c2["subject"]) and validate_claim(c2):
-                claims.append(c2)
+            if is_subject_allowed(c1["predicate"], c1["subject"]) and validate_claim(c1):
+                claims.append(c1)
             else:
-                print(f"Skipped invalid or disallowed claim: {c2.get('claim_id')}")
+                print(f"Skipped invalid or disallowed claim: {c1.get('claim_id')}")
 
-        # Check comment normalized body for assignment patterns like 'assigned @username'
-        normalized = comment.get("normalized_body") or comment.get("body") or ""
-        try:
-            if re.search(r"\bassign\w*\b", normalized, flags=re.IGNORECASE):
-                mentions = re.findall(r"@([A-Za-z0-9_\-]+)", normalized)
-                for m in mentions:
-                    obj_ns = namespace_object("ISSUE_ASSIGNED_TO", m)
-                    c3 = make_claim(
-                        subject=issue_node,
-                        predicate="ISSUE_ASSIGNED_TO",
-                        obj=obj_ns,
-                        event_time=comment_event_time,
-                        source_type="issue_comment",
-                        source_id=comment_id,
-                        excerpt=excerpt,
-                    )
-                    if is_subject_allowed(c3["predicate"], c3["subject"]) and validate_claim(c3):
-                        claims.append(c3)
-                    else:
-                        print(f"Skipped invalid or disallowed claim: {c3.get('claim_id')}")
-        except Exception:
-            pass
+            # COMMENT_WRITTEN_BY
+            comment_author = comment.get("author")
+            if comment_author:
+                obj_ns = namespace_object("COMMENT_WRITTEN_BY", comment_author)
+                c2 = make_claim(
+                    subject=comment_node,
+                    predicate="COMMENT_WRITTEN_BY",
+                    obj=obj_ns,
+                    event_time=comment_event_time,
+                    source_type="issue_comment",
+                    source_id=comment_id,
+                    excerpt=excerpt,
+                )
+                if is_subject_allowed(c2["predicate"], c2["subject"]) and validate_claim(c2):
+                    claims.append(c2)
+                else:
+                    print(f"Skipped invalid or disallowed claim: {c2.get('claim_id')}")
+
+            # Check comment normalized body for assignment patterns like 'assigned @username'
+            normalized = comment.get("normalized_body") or comment.get("body") or ""
+            try:
+                if re.search(r"\bassign\w*\b", normalized, flags=re.IGNORECASE):
+                    mentions = re.findall(r"@([A-Za-z0-9_\-]+)", normalized)
+                    for m in mentions:
+                        obj_ns = namespace_object("ISSUE_ASSIGNED_TO", m)
+                        c3 = make_claim(
+                            subject=issue_node,
+                            predicate="ISSUE_ASSIGNED_TO",
+                            obj=obj_ns,
+                            event_time=comment_event_time,
+                            source_type="issue_comment",
+                            source_id=comment_id,
+                            excerpt=excerpt,
+                        )
+                        if is_subject_allowed(c3["predicate"], c3["subject"]) and validate_claim(c3):
+                            claims.append(c3)
+                        else:
+                            print(f"Skipped invalid or disallowed claim: {c3.get('claim_id')}")
+            except Exception:
+                pass
 
     # post-process temporal validity for status claims:
     # for each (subject, predicate==ISSUE_HAS_STATUS) sort by event_time

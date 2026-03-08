@@ -21,6 +21,14 @@ GitHub API
   -> Visualization (Cytoscape.js)
 ```
 
+## Submission Artifacts
+- Write-up PDF: `Layer10_Writeup.pdf`
+- Serialized memory graph export: `memory_graph.json`
+- Example context packs:
+  - `context_packs_examples/context_pack_q1_issue_62799_creator.json`
+  - `context_packs_examples/context_pack_q2_issue_62887_assignee.json`
+  - `context_packs_examples/context_pack_q3_issue_62903_labels.json`
+
 ## Repository Layout
 ```text
 Corpus/           # data extraction + cleaning
@@ -130,7 +138,22 @@ python3 Visualization/export_cytoscape_graph.py
 Open:
 - `Visualization/cytoscape_graph.html`
 
+## Get Serialized Output of the Graph
+
+Run the following Cypher query in the Neo4j Browser to retrieve a serialized representation of the memory graph:
+
+```cypher
+MATCH (n)
+OPTIONAL MATCH (n)-[r]->(m)
+RETURN
+collect(DISTINCT n) AS nodes,
+collect(DISTINCT r) AS relationships,
+collect(DISTINCT m) AS targets;
+```
+
 ## Main Outputs
+- `Layer10_Writeup.pdf`
+- `memory_graph.json`
 - `data/raw/airflow_issues.json`
 - `data/processed/airflow_clean.json`
 - `data/claims/claims_v1.json`
@@ -147,7 +170,3 @@ Open:
   - rerun loaders in `Graph_Design/` and verify claims/evidence loaded
 - Ollama errors:
   - ensure `ollama serve` is running and models are pulled
-
-## Notes
-- LLM extraction is intentionally restricted to `ISSUE_ASSIGNED_TO`.
-- Retrieval excludes ungrounded claims (claims without evidence in the graph/context).

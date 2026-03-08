@@ -5,7 +5,9 @@ import uuid
 from datetime import datetime, timezone
 from typing import Dict, Any, List
 
-CLAIMS_FILE = "data/claims/claims_v1.json"
+CLAIMS_CANDIDATES = [
+    "data/claims/claims_dedup_v1.json",
+]
 OUTPUT_FILE = "data/Entities/entities_v1.json"
 
 def get_entity_type(entity_id):
@@ -60,9 +62,25 @@ def canonicalize_entity_id(entity_id: str) -> str:
     # leave issues and others as-is
     return entity_id
 
+
+def _load_claims() -> List[Dict[str, Any]]:
+    for path in CLAIMS_CANDIDATES:
+        if not os.path.exists(path):
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                claims = json.load(f)
+            if isinstance(claims, list):
+                return claims
+        except Exception:
+            continue
+    return []
+
 def main():
-    with open(CLAIMS_FILE) as f:
-        claims = json.load(f)
+    claims = _load_claims()
+    if not claims:
+        print("No claims found. Expected one of:", ", ".join(CLAIMS_CANDIDATES))
+        return
 
     entities: Dict[str, Dict[str, Any]] = {}
     merge_log: List[Dict[str, Any]] = []

@@ -93,7 +93,6 @@ def main():
 
     with open("/Users/luffy_sama/Desktop/Workspace/Try/10/data/raw/airflow_issues.json", "w") as f:
         json.dump(issues, f, indent=2)
-        print("TOKEN:", TOKEN)
 
     print("Download complete.")
 
