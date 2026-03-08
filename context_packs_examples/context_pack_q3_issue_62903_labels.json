@@ -1,0 +1,202 @@
+{
+  "question": "What labels does issue 62903 have?",
+  "retrieval_mode": "keyword",
+  "mapping": {
+    "detected_issue_ids": [
+      "62903"
+    ],
+    "detected_comment_ids": [],
+    "detected_usernames": [],
+    "predicate_hints": [
+      "ISSUE_HAS_LABEL"
+    ],
+    "strict_predicates": [],
+    "explicit_entities": [
+      "issue_62903"
+    ],
+    "query_terms": [
+      "62903",
+      "does",
+      "have",
+      "labels"
+    ]
+  },
+  "strategy": {
+    "candidate_mapping": "keyword",
+    "max_claims_per_entity": 10,
+    "max_evidence_per_claim": 3,
+    "max_claims_total": 30,
+    "hybrid_embeddings_used": false,
+    "grounding_rule": "claims without evidence are excluded"
+  },
+  "ambiguity": {
+    "is_ambiguous": false
+  },
+  "conflicts": [
+    {
+      "subject": "issue_62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "objects": [
+        "label_area_auth",
+        "label_area_providers",
+        "label_kind_bug",
+        "label_kind_needs_triage",
+        "label_kind_provider_fab"
+      ],
+      "claim_ids": [
+        "c43a8bd7-e2d4-5a4d-a226-8b2621be2874",
+        "aae915e0-b03b-5ae1-b19f-bbefc175f869",
+        "38660e4e-ad57-51f9-94c2-b7ac36166828",
+        "4426de58-cd62-5ad8-91fc-f65f156a4a5d",
+        "53213896-4aac-5b76-90cd-51f4d5943bff"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "issue_62903",
+      "entity_type": "Issue",
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 3.0
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "c43a8bd7-e2d4-5a4d-a226-8b2621be2874",
+      "subject": "issue_62903",
+      "subject_url": "https://github.com/apache/airflow/issues/62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "object": "label_kind_bug",
+      "object_url": "https://github.com/apache/airflow/labels/kind:bug",
+      "confidence": 1.0,
+      "event_time": "2026-03-05T02:16:56Z",
+      "valid_from": "2026-03-05T02:16:56Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E1"
+      ]
+    },
+    {
+      "claim_id": "aae915e0-b03b-5ae1-b19f-bbefc175f869",
+      "subject": "issue_62903",
+      "subject_url": "https://github.com/apache/airflow/issues/62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "object": "label_area_providers",
+      "object_url": "https://github.com/apache/airflow/labels/area:providers",
+      "confidence": 1.0,
+      "event_time": "2026-03-05T02:16:56Z",
+      "valid_from": "2026-03-05T02:16:56Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E2"
+      ]
+    },
+    {
+      "claim_id": "38660e4e-ad57-51f9-94c2-b7ac36166828",
+      "subject": "issue_62903",
+      "subject_url": "https://github.com/apache/airflow/issues/62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "object": "label_area_auth",
+      "object_url": "https://github.com/apache/airflow/labels/area:auth",
+      "confidence": 1.0,
+      "event_time": "2026-03-05T02:16:56Z",
+      "valid_from": "2026-03-05T02:16:56Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E3"
+      ]
+    },
+    {
+      "claim_id": "4426de58-cd62-5ad8-91fc-f65f156a4a5d",
+      "subject": "issue_62903",
+      "subject_url": "https://github.com/apache/airflow/issues/62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "object": "label_kind_needs_triage",
+      "object_url": "https://github.com/apache/airflow/labels/kind:needs-triage",
+      "confidence": 1.0,
+      "event_time": "2026-03-05T02:16:56Z",
+      "valid_from": "2026-03-05T02:16:56Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E4"
+      ]
+    },
+    {
+      "claim_id": "53213896-4aac-5b76-90cd-51f4d5943bff",
+      "subject": "issue_62903",
+      "subject_url": "https://github.com/apache/airflow/issues/62903",
+      "predicate": "ISSUE_HAS_LABEL",
+      "object": "label_kind_provider_fab",
+      "object_url": "https://github.com/apache/airflow/labels/kind:provider-fab",
+      "confidence": 1.0,
+      "event_time": "2026-03-05T02:16:56Z",
+      "valid_from": "2026-03-05T02:16:56Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62903",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E5"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "citation_id": "E1",
+      "claim_id": "c43a8bd7-e2d4-5a4d-a226-8b2621be2874",
+      "source_type": "issue_metadata",
+      "source_id": 62903,
+      "excerpt": "Label: kind:bug",
+      "timestamp": "2026-03-05T02:16:56Z",
+      "url": "https://github.com/apache/airflow/issues/62903"
+    },
+    {
+      "citation_id": "E2",
+      "claim_id": "aae915e0-b03b-5ae1-b19f-bbefc175f869",
+      "source_type": "issue_metadata",
+      "source_id": 62903,
+      "excerpt": "Label: area:providers",
+      "timestamp": "2026-03-05T02:16:56Z",
+      "url": "https://github.com/apache/airflow/issues/62903"
+    },
+    {
+      "citation_id": "E3",
+      "claim_id": "38660e4e-ad57-51f9-94c2-b7ac36166828",
+      "source_type": "issue_metadata",
+      "source_id": 62903,
+      "excerpt": "Label: area:auth",
+      "timestamp": "2026-03-05T02:16:56Z",
+      "url": "https://github.com/apache/airflow/issues/62903"
+    },
+    {
+      "citation_id": "E4",
+      "claim_id": "4426de58-cd62-5ad8-91fc-f65f156a4a5d",
+      "source_type": "issue_metadata",
+      "source_id": 62903,
+      "excerpt": "Label: needs-triage",
+      "timestamp": "2026-03-05T02:16:56Z",
+      "url": "https://github.com/apache/airflow/issues/62903"
+    },
+    {
+      "citation_id": "E5",
+      "claim_id": "53213896-4aac-5b76-90cd-51f4d5943bff",
+      "source_type": "issue_metadata",
+      "source_id": 62903,
+      "excerpt": "Label: provider:fab",
+      "timestamp": "2026-03-05T02:16:56Z",
+      "url": "https://github.com/apache/airflow/issues/62903"
+    }
+  ]
+}

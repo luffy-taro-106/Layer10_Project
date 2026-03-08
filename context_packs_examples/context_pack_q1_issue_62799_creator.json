@@ -1,0 +1,75 @@
+{
+  "question": "Who created issue 62799?",
+  "retrieval_mode": "keyword",
+  "mapping": {
+    "detected_issue_ids": [
+      "62799"
+    ],
+    "detected_comment_ids": [],
+    "detected_usernames": [],
+    "predicate_hints": [
+      "ISSUE_CREATED_BY"
+    ],
+    "strict_predicates": [
+      "ISSUE_CREATED_BY"
+    ],
+    "explicit_entities": [
+      "issue_62799"
+    ],
+    "query_terms": [
+      "62799",
+      "created"
+    ]
+  },
+  "strategy": {
+    "candidate_mapping": "keyword",
+    "max_claims_per_entity": 10,
+    "max_evidence_per_claim": 3,
+    "max_claims_total": 30,
+    "hybrid_embeddings_used": false,
+    "grounding_rule": "claims without evidence are excluded"
+  },
+  "ambiguity": {
+    "is_ambiguous": false
+  },
+  "conflicts": [],
+  "entities": [
+    {
+      "id": "issue_62799",
+      "entity_type": "Issue",
+      "url": "https://github.com/apache/airflow/issues/62799",
+      "score": 3.0
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "3fbfd60e-7467-5581-b01b-504da3b3c008",
+      "subject": "issue_62799",
+      "subject_url": "https://github.com/apache/airflow/issues/62799",
+      "predicate": "ISSUE_CREATED_BY",
+      "object": "person_prajwal7842",
+      "object_url": "https://github.com/prajwal7842",
+      "confidence": 1.0,
+      "event_time": "2026-03-03T16:35:33Z",
+      "valid_from": "2026-03-03T16:35:33Z",
+      "valid_to": null,
+      "url": "https://github.com/apache/airflow/issues/62799",
+      "score": 1.65,
+      "support_count": 1,
+      "citations": [
+        "E1"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "citation_id": "E1",
+      "claim_id": "3fbfd60e-7467-5581-b01b-504da3b3c008",
+      "source_type": "issue_metadata",
+      "source_id": 62799,
+      "excerpt": "Logical date filter not working correctly for /dagruns page",
+      "timestamp": "2026-03-03T16:35:33Z",
+      "url": "https://github.com/apache/airflow/issues/62799"
+    }
+  ]
+}
