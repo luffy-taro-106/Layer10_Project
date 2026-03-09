@@ -90,6 +90,7 @@ source .venv/bin/activate
 python3 Corpus/data_extraction.py
 python3 Corpus/data_cleaning.py
 
+ollama serve
 python3 Extraction/claims.py
 python3 Extraction/extract_llm_claims.py
 python3 Extraction/claim_dedup.py
